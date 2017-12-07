@@ -1,5 +1,9 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
 
 public class UserInput {
 
@@ -43,5 +47,37 @@ public class UserInput {
 	}
 
 	//methodos gia eisagwgh tou keimenou se ena arxeio txt
+	protected static String[] getFile() throws InputMismatchException,FileNotFoundException {
+		Scanner sc2 = new Scanner(System.in);
+		System.out.println("Write the name of the file");
+		if (!sc2.hasNextLine()) {
+					throw new InputMismatchException("That's not a file name");
+		}
+		String correctInput2 = sc2.nextLine();
+		BufferedReader reader = new BufferedReader(new FileReader(new File(correctInput2)));
+		String inputLine = null;
 
+		while((inputLine = reader.readLine()) != null) {
+
+			String[] words = inputLine.split("\\s+");
+
+			 // Ignore empty lines.
+			if(inputLine.equals(""))
+				continue;
+
+			for(String word: words) {
+
+				word = word.replace(".", "");
+				word = word.replace(",", "");
+
+			}
+
+				//μεθοδος που ψαχνει στο  λεξικο
+		}
+			reader.close();
+
+		return //πινακα string με τις λαθος λεξεις//
+
+
+	}
 }
