@@ -23,6 +23,7 @@ public class UserInput {
 // Exception for input of invalid type
 	public static void handleException1() {
 
+		
 	  Scanner scanner = new Scanner(System.in);
 	  boolean continueLoop = true;
 	  do {
@@ -46,7 +47,7 @@ public class UserInput {
 	}
 
 	//this method get a name of a file, searches and returns an array String of the words
-	protected static String[] getFile() throws InputMismatchException,FileNotFoundException, IOException {
+	protected static String[] getFile() throws InputMismatchException {
 		Scanner sc2 = new Scanner(System.in);
 		System.out.println("Write the name of the file");
 		if (!sc2.hasNextLine()) {
@@ -76,4 +77,22 @@ public class UserInput {
 
 
 	}
+	public static void handleException2() {
+
+          Scanner scanner = new Scanner(System.in);
+          boolean continueLoop = true;
+   	  do {
+   	  	try {
+   			getFile();
+   			continueLoop = false;
+		} catch (InputMismatchException e) {
+				System.err.println("Invalid file name, try again" + e.getMessage());
+		} catch (FileNotFoundException e) {
+				System.err.println("Unable to open file " + e.getMessage());
+		} catch (IOException e) {
+				System.err.println("" + e.getMessage());
+		}
+
+	  }while (continueLoop);
+   }
 }
