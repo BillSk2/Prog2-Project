@@ -54,25 +54,45 @@ public class UserInput {
 					throw new InputMismatchException("That's not a file name");
 		}
 		String correctInput2 = sc2.nextLine();
-		BufferedReader reader = new BufferedReader(new FileReader(new File(correctInput2)));
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(new File(correctInput2)));
+		}catch (FileNotFoundException e) {
+			System.err.println("Unable to open file" + e.getMessage());
+			System.exit(1);
+		}
 		String inputLine = null;
 		String[] words = null;
-		while((inputLine = reader.readLine()) != null) {
+		try{
+			while((inputLine = reader.readLine()) != null) {
 
-			words = inputLine.split("\\s+");
+				words = inputLine.split("\\s+");
 
-			// Ignore empty lines.
-			if(inputLine.equals(""))
-				continue;
+				// Ignore empty lines.
+				if(inputLine.equals(""))
+					continue;
 
-			for(String word: words) {
+				for(String word: words) {
 
 				word = word.replace(".", "");
 				word = word.replace(",", "");
 
 			}
 		}
-		reader.close();
+		}catch (Exception e) {
+			System.err.println("Error reading line: " + e.getMessage());
+           	        System.exit(1);
+		}finally {
+        		if (reader != null) {
+        	    	try {
+        	        	reader.close();
+        	    	} catch (IOException e) {
+        	        	System.out.println("Couldn't close the reader");
+        	    	}
+			}
+		}
+			
+	
 		return words; 
 
 
@@ -87,10 +107,6 @@ public class UserInput {
    			continueLoop = false;
 		} catch (InputMismatchException e) {
 				System.err.println("Invalid file name, try again" + e.getMessage());
-		} catch (FileNotFoundException e) {
-				System.err.println("Unable to open file " + e.getMessage());
-		} catch (IOException e) {
-				System.err.println("" + e.getMessage());
 		}
 
 	  }while (continueLoop);
